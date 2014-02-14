@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+
 #define HEIGHT 3
 #define WIDTH 3
 
@@ -19,14 +20,15 @@ void show_field(void) {
         printf("-------------\n");
         for (int j = 0; j < WIDTH; j++) {
             printf("| %c ", field[i][j]);
-            if (j == WIDTH - 1) printf("|\n");
+            if (j == WIDTH - 1) 
+                printf("|\n"); // Никогда не пиши if в одну строку
         }
     }
     printf("-------------\n");
 }
 
 int check_win_conditions(char symb) {
-    bool is_horiz_win = false;
+    bool is_horiz_win = false;  
     bool is_vert_win = false;
     bool is_diag_win = false;
 
@@ -110,10 +112,9 @@ void computer_turn(int ai_type) {
     printf ("Computer turn:\n");
     if (ai_type == 1) {
         do {
-            srand(time(NULL));
             x = rand() % HEIGHT;
-            srand(time(NULL));
             y = rand() % WIDTH;
+            
         } while (check_input(x, y));
 
         field[x][y] = 'o'; 
@@ -127,6 +128,7 @@ void computer_turn(int ai_type) {
             }
         }
     }
+    // else... ?
 }
 
 void human_turn(int x, int y) {
@@ -147,14 +149,15 @@ int main() {
     int x, y;
     int game_state = 0;
     int ai_type;
+    
+    srand(time(NULL)); // Нужно выполнить 1 раз
 
     set_default_values();
 
     do {
         printf("Choose ai type (1 or 2): \n");
         scanf ("%d", &ai_type);    
-    }
-    while (!(ai_type == 1 || ai_type == 2));
+    }  while (ai_type != 1 && ai_type != 2);
     
     while (!game_state) {
         human_turn(x, y);        
